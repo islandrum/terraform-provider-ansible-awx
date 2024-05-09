@@ -1,13 +1,13 @@
-# Terraform provider Ansible-tower
+# Terraform provider Ansible-AWX
 
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Kaginari/terraform-provider-ansible-tower?logo=go&style=flat-square)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Kaginari/terraform-provider-ansible-tower?logo=git&style=flat-square)
-![GitHub](https://img.shields.io/github/license/Kaginari/terraform-provider-ansible-tower?color=yellow&style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Kaginari/terraform-provider-ansible-tower/golangci?logo=github&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/Kaginari/terraform-provider-ansible-tower?logo=github&style=flat-square)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/islandrum/terraform-provider-ansible-awx?logo=go&style=flat-square)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/islandrum/terraform-provider-ansible-awx?logo=git&style=flat-square)
+![GitHub](https://img.shields.io/github/license/islandrum/terraform-provider-ansible-awx?color=yellow&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/islandrum/terraform-provider-ansible-awx/golangci?logo=github&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/islandrum/terraform-provider-ansible-awx?logo=github&style=flat-square)
 
 
-This repository is a [Terraform](https://www.terraform.io) Provider for Ansible tower (awx)  
+This repository is a [Terraform](https://www.terraform.io) Provider for Ansible AWX  
  
 ### Requirements
 
@@ -21,14 +21,14 @@ This repository is a [Terraform](https://www.terraform.io) Provider for Ansible 
 1. Build the provider using the `make install` command:
 
 ````bash
-git clone https://github.com/Kaginari/terraform-provider-mongodb
-cd terraform-provider-ansible-tower
+git clone https://github.com/islandrum/terraform-provider-mongodb
+cd terraform-provider-ansible-awx
 make install
 ````
 
 ### To test locally
 
-**1.1: launch awx tower**
+**1.1: launch awx**
 
 
 ````bash
@@ -41,7 +41,7 @@ docker-compose up -d
 https://debugthis.dev/posts/2020/04/setting-up-ansible-awx-using-a-docker-environment-part-2-the-docker-compose-approach/
 
 
-**1.4 :  user in tower**
+**1.4 :  user in awx**
 
 * default user : admin
 * default password : password
