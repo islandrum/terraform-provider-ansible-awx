@@ -8,19 +8,18 @@ issues:
 linters:
   disable-all: true
   enable:
-    - deadcode
+#    - deadcode
     - errcheck
     - ineffassign
-    - interfacer
+#    - interfacer
     - nakedret
     - misspell
     - typecheck
     - unused
     - unconvert
     - unparam
-    - varcheck
-    - vet
-    - vetshadow
+#    - varcheck
+    - govet
 
 linters-settings:
   errcheck:

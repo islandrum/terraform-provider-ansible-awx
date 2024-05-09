@@ -1,6 +1,6 @@
 module github.com/islandrum/terraform-provider-ansible-awx
 
-go 1.17
+go 1.22
 
 require (
 	github.com/Kaginari/ansible-tower-sdk v0.1.4
