@@ -1,4 +1,4 @@
-module github.com/Kaginari/terraform-provider-ansible-tower
+module github.com/islandrum/terraform-provider-ansible-awx
 
 go 1.17
 
