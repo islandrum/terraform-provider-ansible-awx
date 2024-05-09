@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	"github.com/Kaginari/ansible-tower-sdk/client"
+	"github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -43,7 +43,7 @@ func resourceOrganization() *schema.Resource {
 }
 
 func resourceOrganizationsCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
 
 	result, err := awxService.CreateOrganization(map[string]interface{}{
@@ -61,7 +61,7 @@ func resourceOrganizationsCreate(ctx context.Context, d *schema.ResourceData, m 
 
 func resourceOrganizationsUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -96,7 +96,7 @@ func resourceOrganizationsUpdate(ctx context.Context, d *schema.ResourceData, m 
 
 func resourceOrganizationsRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
 
 	stateID := d.State().ID
@@ -117,7 +117,7 @@ func resourceOrganizationsRead(ctx context.Context, d *schema.ResourceData, m in
 func resourceOrganizationsDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	digMessagePart := "Organization"
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.OrganizationsService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -134,7 +134,7 @@ func resourceOrganizationsDelete(ctx context.Context, d *schema.ResourceData, m 
 }
 
 //nolint:errcheck
-func setOrganizationsResourceData(d *schema.ResourceData, r *tower.Organizations) *schema.ResourceData {
+func setOrganizationsResourceData(d *schema.ResourceData, r *awx.Organizations) *schema.ResourceData {
 
 	d.Set("name", r.Name)
 	d.Set("description", r.Description)

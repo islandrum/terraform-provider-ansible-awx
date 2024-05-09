@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Kaginari/ansible-tower-sdk/client"
+	"github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -44,7 +44,7 @@ func resourceInventoryScript() *schema.Resource {
 }
 
 func resourceInventoryScriptDelete(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.InventoryScriptsService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -63,7 +63,7 @@ func resourceInventoryScriptDelete(ctx context.Context, data *schema.ResourceDat
 }
 
 func resourceInventoryScriptUpdate(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.InventoryScriptsService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -88,7 +88,7 @@ func resourceInventoryScriptUpdate(ctx context.Context, data *schema.ResourceDat
 }
 
 func resourceInventoryScriptCreate(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.InventoryScriptsService
 
 	result, err := awxService.CreateInventoryScript(map[string]interface{}{
@@ -106,7 +106,7 @@ func resourceInventoryScriptCreate(ctx context.Context, data *schema.ResourceDat
 	return resourceInventoryScriptRead(ctx, data, i)
 }
 func resourceInventoryScriptRead(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.InventoryScriptsService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -123,7 +123,7 @@ func resourceInventoryScriptRead(ctx context.Context, data *schema.ResourceData,
 }
 
 //nolint:errcheck,unparam
-func setInventoryScriptResourceData(d *schema.ResourceData, r *tower.InventoryScript) (*schema.ResourceData, diag.Diagnostics) {
+func setInventoryScriptResourceData(d *schema.ResourceData, r *awx.InventoryScript) (*schema.ResourceData, diag.Diagnostics) {
 
 	d.Set("name", r.Name)
 	d.Set("description", r.Description)

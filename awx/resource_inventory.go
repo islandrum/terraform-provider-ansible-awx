@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	tower "github.com/Kaginari/ansible-tower-sdk/client"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -67,8 +67,8 @@ func resourceInventory() *schema.Resource {
 }
 
 func resourceInventoryCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
-	towerService := client.InventoriesService
+	client := m.(*awx.AWX)
+	awxService := client.InventoriesService
 	var vars []Variable
 	list := d.Get("inv_var").(*schema.Set).List()
 	err := mapstructure.Decode(list, &vars)
@@ -76,7 +76,7 @@ func resourceInventoryCreate(ctx context.Context, d *schema.ResourceData, m inte
 		return DiagsError(InventoryResourceName, err)
 	}
 	inventoryVars := CreateInventoryVariables(vars)
-	result, err := towerService.CreateInventory(map[string]interface{}{
+	result, err := awxService.CreateInventory(map[string]interface{}{
 		"name":         d.Get("name").(string),
 		"organization": d.Get("organisation_id").(string),
 		"description":  d.Get("description").(string),
@@ -93,7 +93,7 @@ func resourceInventoryCreate(ctx context.Context, d *schema.ResourceData, m inte
 }
 
 func resourceInventoryUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventoriesService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -126,7 +126,7 @@ func resourceInventoryUpdate(ctx context.Context, d *schema.ResourceData, m inte
 }
 
 func resourceInventoryRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventoriesService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -143,7 +143,7 @@ func resourceInventoryRead(ctx context.Context, d *schema.ResourceData, m interf
 }
 
 func resourceInventoryDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventoriesService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -164,7 +164,7 @@ func resourceInventoryDelete(ctx context.Context, d *schema.ResourceData, m inte
 }
 
 //nolint:errcheck
-func setInventoryResourceData(d *schema.ResourceData, r *tower.Inventory) *schema.ResourceData {
+func setInventoryResourceData(d *schema.ResourceData, r *awx.Inventory) *schema.ResourceData {
 	d.Set("name", r.Name)
 	d.Set("organisation_id", strconv.Itoa(r.Organization))
 	d.Set("description", r.Description)

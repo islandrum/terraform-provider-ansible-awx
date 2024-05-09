@@ -3,7 +3,7 @@ module github.com/islandrum/terraform-provider-ansible-awx
 go 1.22
 
 require (
-	github.com/Kaginari/ansible-tower-sdk v0.1.4
+	github.com/islandrum/go-ansible-awx-sdk v0.1.5-b1
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.9.0
 	github.com/mitchellh/mapstructure v1.4.2
 )

@@ -83,7 +83,7 @@ resource "ansible-tower_credential_machine" "credential" {
 resource "ansible-tower_project" "vault" {
   name                 = "test playbook"
   scm_type             = "git"
-  scm_url              = "https://github.com/Kaginari/ansible-playbook-tower-test"
+  scm_url              = "https://github.com/islandrum/ansible-playbook-awx-test"
   scm_branch           = "main"
   scm_update_on_launch = true
   organisation_id      = ansible-tower_organisation.organisation.id

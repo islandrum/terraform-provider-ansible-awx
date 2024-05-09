@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	tower "github.com/Kaginari/ansible-tower-sdk/client"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -83,7 +83,7 @@ func resourceCredentialSCMCreate(ctx context.Context, d *schema.ResourceData, m 
 			},
 		}
 
-		client := m.(*tower.AWX)
+		client := m.(*awx.AWX)
 		cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 		if err != nil {
 			return DiagsError(CredentialSCMResourceName, err)
@@ -99,7 +99,7 @@ func resourceCredentialSCMCreate(ctx context.Context, d *schema.ResourceData, m 
 func resourceCredentialSCMRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -167,7 +167,7 @@ func resourceCredentialSCMUpdate(ctx context.Context, d *schema.ResourceData, m 
 		},
 	}
 
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 	if err != nil {
 		return DiagUpdateFail(CredentialSCMResourceName, id, err)
@@ -184,7 +184,7 @@ func resourceCredentialSCMDelete(ctx context.Context, d *schema.ResourceData, m 
 	if err != nil {
 		return DiagNotFoundFail(CredentialSCMResourceName, id, err)
 	}
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	err = client.CredentialsService.DeleteCredentialsByID(id, map[string]string{})
 	if err != nil {
 		return DiagDeleteFail(CredentialSCMResourceName, fmt.Sprintf(

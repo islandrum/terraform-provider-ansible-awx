@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	tower "github.com/Kaginari/ansible-tower-sdk/client"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"strconv"
@@ -99,7 +99,7 @@ func resourceProject() *schema.Resource {
 }
 
 func resourceProjectCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 
 	orgID := d.Get("organisation_id").(int)
@@ -142,7 +142,7 @@ func resourceProjectCreate(ctx context.Context, d *schema.ResourceData, m interf
 }
 
 func resourceProjectUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -176,7 +176,7 @@ func resourceProjectUpdate(ctx context.Context, d *schema.ResourceData, m interf
 
 func resourceProjectRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 
 	stateID := d.State().ID
@@ -197,7 +197,7 @@ func resourceProjectRead(ctx context.Context, d *schema.ResourceData, m interfac
 func resourceProjectDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	digMessagePart := "Project"
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 	var jobID int
 	var finished time.Time
@@ -244,7 +244,7 @@ func resourceProjectDelete(ctx context.Context, d *schema.ResourceData, m interf
 }
 
 //nolint:errcheck
-func setProjectResourceData(d *schema.ResourceData, r *tower.Project) *schema.ResourceData {
+func setProjectResourceData(d *schema.ResourceData, r *awx.Project) *schema.ResourceData {
 	d.Set("name", r.Name)
 	d.Set("description", r.Description)
 	d.Set("scm_type", r.ScmType)
