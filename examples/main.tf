@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     ansible-tower = {
-      source = "registry.terraform.io/Kaginari/ansible-tower"
+      source = "registry.terraform.io/islandrum/ansible-awx"
     }
   }
 }
