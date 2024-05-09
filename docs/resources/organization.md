@@ -1,10 +1,10 @@
-# ansible-tower_organization
-An Organization is a logical collection of Users, Teams, Projects, and Inventories, and is the highest level in the Tower object hierarchy.
+# ansible-awx_organization
+An Organization is a logical collection of Users, Teams, Projects, and Inventories, and is the highest level in the AWX object hierarchy.
 
 ## Example Usage
 
 ```hcl
-resource "ansible-tower_organization" "example" {
+resource "ansible-awx_organization" "example" {
   name            = "test"
 }
 ```
@@ -20,8 +20,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower Organisation can be imported using the id, e.g. for an organisation with id : 110 
+Ansible AWX Organisation can be imported using the id, e.g. for an organisation with id : 110 
 
 ```sh
-$ terraform import ansible-tower_organization.example 110
+$ terraform import ansible-awx_organization.example 110
 ```

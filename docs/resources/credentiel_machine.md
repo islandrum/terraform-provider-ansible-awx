@@ -1,15 +1,15 @@
 
-# ansible-tower_credential_machine
+# ansible-awx_credential_machine
 
-`ansible-tower_credential_machine` Credentials machine Credentials are utilized by Tower for authentication when launching Jobs against machines.
+`ansible-awx_credential_machine` Credentials machine Credentials are utilized by AWX for authentication when launching Jobs against machines.
 
 ## Example Usage with password
 
 ```hcl
 
 
-resource "ansible-tower_credential_machine" "credential" {
-  organisation_id     = ansible-tower_organisation.organisation.id
+resource "ansible-awx_credential_machine" "credential" {
+  organisation_id     = ansible-awx_organisation.organisation.id
   name                = "acc-machine-credential"
   username            = "test"
   password            = "pwd"
@@ -19,8 +19,8 @@ resource "ansible-tower_credential_machine" "credential" {
 ## Example Usage with ssh key
 
 ```hcl
-resource "ansible-tower_credential_machine" "credential" {
-  organisation_id     = ansible-tower_organisation.organisation.id
+resource "ansible-awx_credential_machine" "credential" {
+  organisation_id     = ansible-awx_organisation.organisation.id
   name                = "acc-machine-credential"
   username            = "test"
   ssh_key_data        = file("${path.module}/files/id_rsa")
@@ -47,8 +47,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower Credential machine can be imported using the id, e.g. for a Credential with id : 125
+Ansible AWX Credential machine can be imported using the id, e.g. for a Credential with id : 125
 
 ```sh
-$ terraform import ansible-tower_credential_machine.example 125
+$ terraform import ansible-awx_credential_machine.example 125
 ```

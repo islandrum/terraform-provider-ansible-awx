@@ -1,15 +1,15 @@
 
-# ansible-tower_credential_scm
+# ansible-awx_credential_scm
 
-`ansible-tower_credential_scm` Credentials scm are utilized by Tower for  synchronizing with inventory sources, and importing project content from a version control system.
+`ansible-awx_credential_scm` Credentials scm are utilized by AWX for  synchronizing with inventory sources, and importing project content from a version control system.
 
 ## Example Usage with password
 
 ```hcl
 
 
-resource "ansible-tower_credential_scm" "example" {
-  organisation_id = ansible-tower_organisation.organisation.id
+resource "ansible-awx_credential_scm" "example" {
+  organisation_id = ansible-awx_organisation.organisation.id
   name            = "acc-scm-credential"
   username        = "test"
   password        = "password"
@@ -19,8 +19,8 @@ resource "ansible-tower_credential_scm" "example" {
 ## Example Usage with ssh key
 
 ```hcl
-resource "ansible-tower_credential_scm" "credential" {
-  organisation_id = ansible-tower_organisation.organisation.id
+resource "ansible-awx_credential_scm" "credential" {
+  organisation_id = ansible-awx_organisation.organisation.id
   name            = "acc-scm-credential"
   username        = "test"
   ssh_key_data    = file("${path.module}/files/id_rsa")
@@ -44,8 +44,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower Credential SCM can be imported using the id, e.g. for a Credential with id : 125
+Ansible AWX Credential SCM can be imported using the id, e.g. for a Credential with id : 125
 
 ```sh
-$ terraform import ansible-tower_credential_scm.example 125
+$ terraform import ansible-awx_credential_scm.example 125
 ```

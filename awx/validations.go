@@ -31,7 +31,7 @@ func inventorySourceValidations(source string, project int) error {
 		//	return nil
 		//case "rhv":
 		//	return nil
-		//case "tower":
+		//case "awx":
 		//	return nil
 	}
 	return nil

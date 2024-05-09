@@ -1,16 +1,16 @@
-# ansible-tower_job_template
+# ansible-awx_job_template
 
-A job template is a definition and set of parameters for running an Ansible job. Job templates are useful to execute the same job many times. Job templates also encourage the reuse of Ansible playbook content and collaboration between teams. While the REST API allows for the execution of jobs directly, Tower requires that you first create a job template.
+A job template is a definition and set of parameters for running an Ansible job. Job templates are useful to execute the same job many times. Job templates also encourage the reuse of Ansible playbook content and collaboration between teams. While the REST API allows for the execution of jobs directly, AWX requires that you first create a job template.
 
 ## Example Usage
 ```hcl
 
 
-resource "ansible-tower_job_template" "template_example" {
+resource "ansible-awx_job_template" "template_example" {
     name           = "test-job-template"
     job_type       = "run"
-    inventory_id   = ansible-tower_inventory.example_inventory.id
-    project_id     = ansible-tower_project.example_project.id
+    inventory_id   = ansible-awx_inventory.example_inventory.id
+    project_id     = ansible-awx_project.example_project.id
     playbook       = "main.yml"
     become_enabled = true
 }
@@ -49,8 +49,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower Job Template can be imported using the id, e.g. for a Job Template with id : 10
+Ansible AWX Job Template can be imported using the id, e.g. for a Job Template with id : 10
 
 ```sh
-$ terraform import ansible-tower_job_template.example 10
+$ terraform import ansible-awx_job_template.example 10
 ```**

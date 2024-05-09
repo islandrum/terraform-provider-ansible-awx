@@ -15,18 +15,18 @@ func Provider() *schema.Provider {
 			"awx_host": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("TOWER_HOST", "http://127.0.0.1"),
+				DefaultFunc: schema.EnvDefaultFunc("AWX_HOST", "http://127.0.0.1"),
 			},
 			"awx_username": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("TOWER_USERNAME", "admin"),
+				DefaultFunc: schema.EnvDefaultFunc("AWX_USERNAME", "admin"),
 			},
 			"awx_password": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
 				Sensitive:   true,
-				DefaultFunc: schema.EnvDefaultFunc("TOWER_PASSWORD", "password"),
+				DefaultFunc: schema.EnvDefaultFunc("AWX_PASSWORD", "password"),
 			},
 			"ssl_verify": {
 				Type:        schema.TypeBool,

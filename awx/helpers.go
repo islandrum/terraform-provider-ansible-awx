@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	InventoryResourceName         = "Ansible tower inventory"
-	OrganisationResourceName      = "Ansible tower Organisation"
-	InventorySourceResourceName   = "Ansible tower inventory source"
-	InventoryScriptResourceName   = "Ansible tower inventory script"
-	CredentialSCMResourceName     = "Ansible tower credential scm"
-	CredentialMachineResourceName = "Ansible tower credential machine"
-	CredentialTypeResourceName 	  = "Ansible tower credential Type"
+	InventoryResourceName         = "Ansible awx inventory"
+	OrganisationResourceName      = "Ansible awx Organisation"
+	InventorySourceResourceName   = "Ansible awx inventory source"
+	InventoryScriptResourceName   = "Ansible awx inventory script"
+	CredentialSCMResourceName     = "Ansible awx credential scm"
+	CredentialMachineResourceName = "Ansible awx credential machine"
+	CredentialTypeResourceName 	  = "Ansible awx credential Type"
 )
 const (
 	InfoColor    = "\033[1;34m[Info] : %s\033[0m"

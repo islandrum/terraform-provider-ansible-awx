@@ -1,7 +1,7 @@
 
-# ansible-tower_inventory
+# ansible-awx_inventory
 
-`ansible-tower_inventory` An Inventory is a collection of hosts against which jobs may be launched, the same as an Ansible inventory file. Inventories are divided into groups and these groups contain the actual hosts. Groups may be sourced manually, by entering host names into Tower, or from one of Ansible Tower’s supported cloud providers.
+`ansible-awx_inventory` An Inventory is a collection of hosts against which jobs may be launched, the same as an Ansible inventory file. Inventories are divided into groups and these groups contain the actual hosts. Groups may be sourced manually, by entering host names into AWX, or from one of Ansible AWX's supported cloud providers.
 
 ## Example Usage
 
@@ -11,7 +11,7 @@ variable "db_pwd" {
   description = "database pwd passed as var to inventory"
 }
 
-resource "ansible-tower_inventory" "default" {
+resource "ansible-awx_inventory" "default" {
   name            = "acc-test"
   organisation_id = "1"
   inv_var {
@@ -28,13 +28,13 @@ resource "ansible-tower_inventory" "default" {
 ## Example Usage with  organisation
 
 ```hcl
-data "ansible-tower_organization" "example" {
+data "ansible-awx_organization" "example" {
   name = "example"
 }
 
-resource "ansible-tower_inventory" "example" {
+resource "ansible-awx_inventory" "example" {
   name            = "acc-test"
-  organisation_id = data.ansible-tower_organization.example.id
+  organisation_id = data.ansible-awx_organization.example.id
   inv_var {
     key = "example_key"
     value = "value_value"
@@ -58,8 +58,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower Inventory can be imported using the id, e.g. for an Inventory with id : 125
+Ansible AWX Inventory can be imported using the id, e.g. for an Inventory with id : 125
 
 ```sh
-$ terraform import ansible-tower_inventory.example 125
+$ terraform import ansible-awx_inventory.example 125
 ```
