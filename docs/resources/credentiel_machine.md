@@ -9,7 +9,7 @@
 
 
 resource "ansible-awx_credential_machine" "credential" {
-  organisation_id     = ansible-awx_organisation.organisation.id
+  oragnization_id     = ansible-awx_oragnization.oragnization.id
   name                = "acc-machine-credential"
   username            = "test"
   password            = "pwd"
@@ -20,7 +20,7 @@ resource "ansible-awx_credential_machine" "credential" {
 
 ```hcl
 resource "ansible-awx_credential_machine" "credential" {
-  organisation_id     = ansible-awx_organisation.organisation.id
+  oragnization_id     = ansible-awx_oragnization.oragnization.id
   name                = "acc-machine-credential"
   username            = "test"
   ssh_key_data        = file("${path.module}/files/id_rsa")
@@ -35,7 +35,7 @@ resource "ansible-awx_credential_machine" "credential" {
 The following arguments are supported:
 
 * `name` - Name of this credential. (string, required)
-* `organisation_id` - Organization containing this credential. (id, required)
+* `oragnization_id` - Organization containing this credential. (id, required)
 * `description` - Optional description of this credential. (string, default="")
 * `username` - (Optional) credential machine USERNAME (string,  default="")
 * `password` - (Optional)  credential machine PASSWORD (string, default="")
