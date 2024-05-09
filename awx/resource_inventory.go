@@ -31,7 +31,7 @@ func resourceInventory() *schema.Resource {
 				Optional: true,
 				Default:  "",
 			},
-			"organisation_id": &schema.Schema{
+			"oragnization_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -78,7 +78,7 @@ func resourceInventoryCreate(ctx context.Context, d *schema.ResourceData, m inte
 	inventoryVars := CreateInventoryVariables(vars)
 	result, err := awxService.CreateInventory(map[string]interface{}{
 		"name":         d.Get("name").(string),
-		"organization": d.Get("organisation_id").(string),
+		"organization": d.Get("oragnization_id").(string),
 		"description":  d.Get("description").(string),
 		"kind":         d.Get("kind").(string),
 		"host_filter":  d.Get("host_filter").(string),
@@ -110,7 +110,7 @@ func resourceInventoryUpdate(ctx context.Context, d *schema.ResourceData, m inte
 	inventoryVars := CreateInventoryVariables(vars)
 	_, err = awxService.UpdateInventory(id, map[string]interface{}{
 		"name":         d.Get("name").(string),
-		"organization": d.Get("organisation_id").(string),
+		"organization": d.Get("oragnization_id").(string),
 		"description":  d.Get("description").(string),
 		"kind":         d.Get("kind").(string),
 		"host_filter":  d.Get("host_filter").(string),
@@ -166,7 +166,7 @@ func resourceInventoryDelete(ctx context.Context, d *schema.ResourceData, m inte
 //nolint:errcheck
 func setInventoryResourceData(d *schema.ResourceData, r *awx.Inventory) *schema.ResourceData {
 	d.Set("name", r.Name)
-	d.Set("organisation_id", strconv.Itoa(r.Organization))
+	d.Set("oragnization_id", strconv.Itoa(r.Organization))
 	d.Set("description", r.Description)
 	d.Set("kind", r.Kind)
 	d.Set("host_filter", r.HostFilter)

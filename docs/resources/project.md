@@ -16,7 +16,7 @@ resource "ansible-awx_project" "base_service_config" {
   scm_url              = "https://gitlab.com/nt-factory/2021/admin/vault"
   scm_branch           = "feature/cluster-playbook"
   scm_update_on_launch = true
-  organisation_id      = data.ansible-awx_organization.default.id
+  oragnization_id      = data.ansible-awx_organization.default.id
 }
 ```
 
@@ -25,7 +25,7 @@ resource "ansible-awx_project" "base_service_config" {
 The following arguments are supported:
 
 * `name` - (Required) Name of this project
-* `organisation_id` - (Required) Numeric ID of the project organization
+* `oragnization_id` - (Required) Numeric ID of the project organization
 * `scm_type` - (Required) One of "" (manual), git, hg, svn
 * `description` - (Optional) Optional description of this project.
 * `local_path` - (Optional) Local path (relative to PROJECTS_ROOT) containing playbooks and related files for this project.

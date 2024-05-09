@@ -26,15 +26,15 @@ provider "ansible-awx" {
   awx_password = var.password
 }
 
-resource "ansible-awx_organisation" "organisation" {
-  name = "test organisation"
+resource "ansible-awx_oragnization" "oragnization" {
+  name = "test oragnization"
   description = "desc"
 }
 
 resource "ansible-awx_inventory" "inventory" {
   name = "test inventory"
   description = "test dsd"
-  organisation_id = ansible-awx_organisation.organisation.id
+  oragnization_id = ansible-awx_oragnization.oragnization.id
   kind = ""
   host_filter = ""
   inv_var {
@@ -50,7 +50,7 @@ resource "ansible-awx_inventory" "inventory" {
 resource "ansible-awx_inventory_script" "script" {
   name = "tf scriptssdsdddsds"
   description = "dsdsd"
-  organization_id = ansible-awx_organisation.organisation.id
+  organization_id = ansible-awx_oragnization.oragnization.id
   script = <<EOT
 #!/usr/bin/env python
 echo "hey"
@@ -64,7 +64,7 @@ resource "ansible-awx_inventory_source" "source_custom_script" {
   source_script = ansible-awx_inventory_script.script.id
 }
 resource "ansible-awx_credential_scm" "credential" {
-  organisation_id = ansible-awx_organisation.organisation.id
+  oragnization_id = ansible-awx_oragnization.oragnization.id
   name            = "acc-scm-credential"
   username        = "test"
   ssh_key_data    = file("${path.module}/files/id_rsa")
@@ -72,7 +72,7 @@ resource "ansible-awx_credential_scm" "credential" {
 
 
 resource "ansible-awx_credential_machine" "credential" {
-  organisation_id     = ansible-awx_organisation.organisation.id
+  oragnization_id     = ansible-awx_oragnization.oragnization.id
   name                = "acc-machine-credential"
   username            = "test"
   ssh_key_data        = file("${path.module}/files/id_rsa")
@@ -86,7 +86,7 @@ resource "ansible-awx_project" "vault" {
   scm_url              = "https://github.com/islandrum/ansible-playbook-awx-test"
   scm_branch           = "main"
   scm_update_on_launch = true
-  organisation_id      = ansible-awx_organisation.organisation.id
+  oragnization_id      = ansible-awx_oragnization.oragnization.id
 //  scm_credential_id    = ansible-awx_credential_scm.credential.id
 }
 resource "ansible-awx_inventory_source" "source" {

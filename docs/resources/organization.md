@@ -20,7 +20,7 @@ The following arguments are supported:
 
 ## Import
 
-Ansible AWX Organisation can be imported using the id, e.g. for an organisation with id : 110 
+Ansible AWX Organisation can be imported using the id, e.g. for an oragnization with id : 110 
 
 ```sh
 $ terraform import ansible-awx_organization.example 110

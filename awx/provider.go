@@ -37,7 +37,7 @@ func Provider() *schema.Provider {
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"ansible-awx_inventory":          resourceInventory(),
-			"ansible-awx_organisation":       resourceOrganization(),
+			"ansible-awx_oragnization":       resourceOrganization(),
 			"ansible-awx_inventory_source":   resourceInventorySource(),
 			"ansible-awx_inventory_script":   resourceInventoryScript(),
 			"ansible-awx_project":            resourceProject(),

@@ -23,7 +23,7 @@ func resourceCredentialSCM() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"organisation_id": {
+			"oragnization_id": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
@@ -64,7 +64,7 @@ func resourceCredentialSCMCreate(ctx context.Context, d *schema.ResourceData, m 
 		"become_method",
 		"become_username",
 		"become_password",
-		"organisation_id",
+		"oragnization_id",
 		"team_id",
 		"owner_id",
 	}
@@ -73,7 +73,7 @@ func resourceCredentialSCMCreate(ctx context.Context, d *schema.ResourceData, m 
 		newCredential := map[string]interface{}{
 			"name":            d.Get("name").(string),
 			"description":     d.Get("description").(string),
-			"organization":    d.Get("organisation_id").(int),
+			"organization":    d.Get("oragnization_id").(int),
 			"credential_type": 2,
 			"inputs": map[string]interface{}{
 				"username":       d.Get("username").(string),
@@ -137,7 +137,7 @@ func resourceCredentialSCMRead(ctx context.Context, d *schema.ResourceData, m in
 	if setErr != nil {
 		return DiagsError(CredentialSCMResourceName, setErr)
 	}
-	setErr = d.Set("organisation_id", cred.OrganizationID)
+	setErr = d.Set("oragnization_id", cred.OrganizationID)
 
 	if setErr != nil {
 		return DiagsError(CredentialSCMResourceName, setErr)
@@ -157,7 +157,7 @@ func resourceCredentialSCMUpdate(ctx context.Context, d *schema.ResourceData, m 
 	updatedCredential := map[string]interface{}{
 		"name":            d.Get("name").(string),
 		"description":     d.Get("description").(string),
-		"organization":    d.Get("organisation_id").(int),
+		"organization":    d.Get("oragnization_id").(int),
 		"credential_type": 2,
 		"inputs": map[string]interface{}{
 			"username":       d.Get("username").(string),
