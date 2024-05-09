@@ -21,7 +21,7 @@ This repository is a [Terraform](https://www.terraform.io) Provider for Ansible 
 1. Build the provider using the `make install` command:
 
 ````bash
-git clone https://github.com/islandrum/terraform-provider-mongodb
+git clone https://github.com/islandrum/terraform-provider-awx
 cd terraform-provider-ansible-awx
 make install
 ````
