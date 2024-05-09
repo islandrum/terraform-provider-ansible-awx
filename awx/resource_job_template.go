@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	tower "github.com/Kaginari/ansible-tower-sdk/client"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
@@ -213,7 +213,7 @@ func resourceJobTemplate() *schema.Resource {
 
 func resourceJobTemplateCreate(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.JobTemplateService
 	// TODO (depth) change sleep by getting project sync state
 	time.Sleep(10 * time.Second)
@@ -235,7 +235,7 @@ func resourceJobTemplateCreate(ctx context.Context, data *schema.ResourceData, i
 
 func resourceJobTemplateUpdate(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.JobTemplateService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -264,7 +264,7 @@ func resourceJobTemplateUpdate(ctx context.Context, data *schema.ResourceData, i
 }
 func resourceJobTemplateDelete(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.JobTemplateService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -287,7 +287,7 @@ func resourceJobTemplateDelete(ctx context.Context, data *schema.ResourceData, i
 }
 func resourceJobTemplateRead(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.JobTemplateService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -306,7 +306,7 @@ func resourceJobTemplateRead(ctx context.Context, data *schema.ResourceData, i i
 }
 
 //nolint:errcheck
-func setJobTemplateResourceData(data *schema.ResourceData, r *tower.JobTemplate) *schema.ResourceData {
+func setJobTemplateResourceData(data *schema.ResourceData, r *awx.JobTemplate) *schema.ResourceData {
 	data.Set("allow_simultaneous", r.AllowSimultaneous)
 	data.Set("ask_credential_on_launch", r.AskCredentialOnLaunch)
 	data.Set("ask_job_type_on_launch", r.AskJobTypeOnLaunch)

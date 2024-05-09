@@ -1,14 +1,14 @@
 
 
-**# ansible-tower_credential_type
+**# ansible-awx_credential_type
 
-`ansible-tower_credential_type` custom credential type
+`ansible-awx_credential_type` custom credential type
 
 
 ## Example Usage
 
 ```hcl
-resource "ansible-tower_credential_type" "example" {
+resource "ansible-awx_credential_type" "example" {
   name           = "credential_type"
   input {
     id = "username"
@@ -45,8 +45,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower credential type can be imported using the id, e.g. for a credential type  with id : 120
+Ansible AWX credential type can be imported using the id, e.g. for a credential type  with id : 120
 
 ```sh  
-$ terraform import ansible-tower_credential_type 120  
+$ terraform import ansible-awx_credential_type 120  
 ```**

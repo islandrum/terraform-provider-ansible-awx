@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	tower "github.com/Kaginari/ansible-tower-sdk/client"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/mitchellh/mapstructure"
@@ -71,7 +71,7 @@ func resourceCredentialType() *schema.Resource {
 	}
 }
 func resourceCredentialTypeRead(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.CredentialTypeService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -88,7 +88,7 @@ func resourceCredentialTypeRead(ctx context.Context, data *schema.ResourceData, 
 }
 
 func resourceCredentialTypeDelete(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.CredentialTypeService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -109,7 +109,7 @@ func resourceCredentialTypeDelete(ctx context.Context, data *schema.ResourceData
 }
 
 func resourceCredentialTypeUpdate(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
+	client := i.(*awx.AWX)
 	awxService := client.CredentialTypeService
 	stateID := data.State().ID
 	id, err := decodeStateId(stateID)
@@ -138,8 +138,8 @@ func resourceCredentialTypeUpdate(ctx context.Context, data *schema.ResourceData
 }
 
 func resourceCredentialTypeCreate(ctx context.Context, data *schema.ResourceData, i interface{}) diag.Diagnostics {
-	client := i.(*tower.AWX)
-	towerService := client.CredentialTypeService
+	client := i.(*awx.AWX)
+	awxService := client.CredentialTypeService
 	var inputs []Fields
 	list := data.Get("input").(*schema.Set).List()
 	err := mapstructure.Decode(list, &inputs)
@@ -147,7 +147,7 @@ func resourceCredentialTypeCreate(ctx context.Context, data *schema.ResourceData
 		return DiagsError(CredentialTypeResourceName, err)
 	}
 	credentialInputList := CreateCredentialInputs(inputs)
-	result, err := towerService.CreateCredentialsTypes(map[string]interface{}{
+	result, err := awxService.CreateCredentialsTypes(map[string]interface{}{
 		"name":   data.Get("name").(string),
 		"kind":   data.Get("kind").(string),
 		"inputs": credentialInputList,
@@ -160,7 +160,7 @@ func resourceCredentialTypeCreate(ctx context.Context, data *schema.ResourceData
 }
 
 //nolint:errcheck
-func setCredentialTypeResourceData(d *schema.ResourceData, r *tower.CredentialType) *schema.ResourceData {
+func setCredentialTypeResourceData(d *schema.ResourceData, r *awx.CredentialType) *schema.ResourceData {
 	d.Set("name", r.Name)
 	d.Set("kind", r.Kind)
 	d.SetId(getStateID(r.ID))

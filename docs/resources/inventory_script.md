@@ -1,17 +1,17 @@
 
 
-**# ansible-tower_inventory_script
+**# ansible-awx_inventory_script
 
-`ansible-tower_inventory_script` custom inventory scripts available in Tower
+`ansible-awx_inventory_script` custom inventory scripts available in AWX
 
 
 ## Example Usage
 
 ```hcl
-resource "ansible-tower_inventory_script" "script" {
+resource "ansible-awx_inventory_script" "script" {
   name = "test script"
   description = "description"
-  organization_id = ansible-tower_organisation.organisation.id
+  organization_id = ansible-awx_organisation.organisation.id
   script = <<EOT
 #!/usr/bin/env python
 echo "hey"
@@ -33,8 +33,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower Inventory script can be imported using the id, e.g. for an Inventory script with id : 120
+Ansible AWX Inventory script can be imported using the id, e.g. for an Inventory script with id : 120
 
 ```sh  
-$ terraform import ansible-tower_inventory_script 120  
+$ terraform import ansible-awx_inventory_script 120  
 ```**

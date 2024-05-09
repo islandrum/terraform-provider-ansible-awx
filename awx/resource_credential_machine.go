@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	tower "github.com/Kaginari/ansible-tower-sdk/client"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -75,7 +75,7 @@ func resourceCredentialMachineDelete(ctx context.Context, d *schema.ResourceData
 	if err != nil {
 		return DiagsError(CredentialMachineResourceName, err)
 	}
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	err = client.CredentialsService.DeleteCredentialsByID(id, map[string]string{})
 	if err != nil {
 		return DiagDeleteFail(CredentialMachineResourceName, fmt.Sprintf(
@@ -107,7 +107,7 @@ func resourceCredentialMachineCreate(ctx context.Context, d *schema.ResourceData
 		},
 	}
 
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		return DiagsError(CredentialMachineResourceName, err)
@@ -122,7 +122,7 @@ func resourceCredentialMachineCreate(ctx context.Context, d *schema.ResourceData
 func resourceCredentialMachineRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
 	if err != nil {
@@ -225,7 +225,7 @@ func resourceCredentialMachineUpdate(ctx context.Context, d *schema.ResourceData
 			},
 		}
 
-		client := m.(*tower.AWX)
+		client := m.(*awx.AWX)
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			return DiagUpdateFail(CredentialMachineResourceName, id, err)

@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"fmt"
-	"github.com/Kaginari/ansible-tower-sdk/client"
+	"github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -54,7 +54,7 @@ func resourceInventorySource() *schema.Resource {
 				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
 					value := val.(string)
 					isTrue := false
-					list := []string{"file", "scm", "ec2", "gce", "azure_rm", "vmware", "satellite6", "openstack", "rhv", "tower", "custom"}
+					list := []string{"file", "scm", "ec2", "gce", "azure_rm", "vmware", "satellite6", "openstack", "rhv", "awx", "custom"}
 					for _, element := range list {
 						if element == value {
 							isTrue = true
@@ -95,7 +95,7 @@ func resourceInventorySource() *schema.Resource {
 }
 
 func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
 
 	result, err := awxService.CreateInventorySource(validateInventoryInput(d), map[string]string{})
@@ -110,7 +110,7 @@ func resourceInventorySourceCreate(ctx context.Context, d *schema.ResourceData, 
 }
 
 func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -130,7 +130,7 @@ func resourceInventorySourceUpdate(ctx context.Context, d *schema.ResourceData, 
 }
 
 func resourceInventorySourceDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -149,7 +149,7 @@ func resourceInventorySourceDelete(ctx context.Context, d *schema.ResourceData, 
 }
 
 func resourceInventorySourceRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := m.(*tower.AWX)
+	client := m.(*awx.AWX)
 	awxService := client.InventorySourcesService
 	stateID := d.State().ID
 	id, err := decodeStateId(stateID)
@@ -166,7 +166,7 @@ func resourceInventorySourceRead(ctx context.Context, d *schema.ResourceData, m 
 }
 
 //nolint:errcheck,unparam
-func setInventorySourceResourceData(d *schema.ResourceData, r *tower.InventorySource) (*schema.ResourceData, diag.Diagnostics) {
+func setInventorySourceResourceData(d *schema.ResourceData, r *awx.InventorySource) (*schema.ResourceData, diag.Diagnostics) {
 
 	d.Set("name", r.Name)
 	d.Set("inventory_id", r.Inventory)

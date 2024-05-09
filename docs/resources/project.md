@@ -1,22 +1,22 @@
 
-# ansible-tower_project
+# ansible-awx_project
 
 
 
 ## Example Usage
 
 ```hcl
-data "ansible-tower_organization" "default" {
+data "ansible-awx_organization" "default" {
   name = "Default"
 }
 
-resource "ansible-tower_project" "base_service_config" {
+resource "ansible-awx_project" "base_service_config" {
   name                 = "vault cluster playbook"
   scm_type             = "git"
   scm_url              = "https://gitlab.com/nt-factory/2021/admin/vault"
   scm_branch           = "feature/cluster-playbook"
   scm_update_on_launch = true
-  organisation_id      = data.ansible-tower_organization.default.id
+  organisation_id      = data.ansible-awx_organization.default.id
 }
 ```
 
@@ -39,8 +39,8 @@ The following arguments are supported:
 
 ## Import
 
-Ansible Tower project can be imported using the id, e.g. for an Inventory source with id : 50
+Ansible AWX project can be imported using the id, e.g. for an Inventory source with id : 50
 
 ```sh
-$ terraform import ansible-tower_project.example 50
+$ terraform import ansible-awx_project.example 50
 ```**

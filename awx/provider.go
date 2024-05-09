@@ -3,7 +3,7 @@ package awx
 import (
 	"context"
 	"crypto/tls"
-	"github.com/Kaginari/ansible-tower-sdk/client"
+	"github.com/islandrum/go-ansible-awx-sdk/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"net/http"
@@ -12,21 +12,21 @@ import (
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"tower_host": &schema.Schema{
+			"awx_host": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("TOWER_HOST", "http://127.0.0.1"),
+				DefaultFunc: schema.EnvDefaultFunc("AWX_HOST", "http://127.0.0.1"),
 			},
-			"tower_username": &schema.Schema{
+			"awx_username": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("TOWER_USERNAME", "admin"),
+				DefaultFunc: schema.EnvDefaultFunc("AWX_USERNAME", "admin"),
 			},
-			"tower_password": &schema.Schema{
+			"awx_password": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
 				Sensitive:   true,
-				DefaultFunc: schema.EnvDefaultFunc("TOWER_PASSWORD", "password"),
+				DefaultFunc: schema.EnvDefaultFunc("AWX_PASSWORD", "password"),
 			},
 			"ssl_verify": {
 				Type:        schema.TypeBool,
@@ -36,15 +36,15 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"ansible-tower_inventory":          resourceInventory(),
-			"ansible-tower_organisation":       resourceOrganization(),
-			"ansible-tower_inventory_source":   resourceInventorySource(),
-			"ansible-tower_inventory_script":   resourceInventoryScript(),
-			"ansible-tower_project":            resourceProject(),
-			"ansible-tower_job_template":       resourceJobTemplate(),
-			"ansible-tower_credential_scm":     resourceCredentialSCM(),
-			"ansible-tower_credential_machine": resourceCredentialMachine(),
-			"ansible-tower_credential_type": 	resourceCredentialType(),
+			"ansible-awx_inventory":          resourceInventory(),
+			"ansible-awx_organisation":       resourceOrganization(),
+			"ansible-awx_inventory_source":   resourceInventorySource(),
+			"ansible-awx_inventory_script":   resourceInventoryScript(),
+			"ansible-awx_project":            resourceProject(),
+			"ansible-awx_job_template":       resourceJobTemplate(),
+			"ansible-awx_credential_scm":     resourceCredentialSCM(),
+			"ansible-awx_credential_machine": resourceCredentialMachine(),
+			"ansible-awx_credential_type": 	resourceCredentialType(),
 		},
 		DataSourcesMap:       map[string]*schema.Resource{},
 		ConfigureContextFunc: providerConfigure,
@@ -52,9 +52,9 @@ func Provider() *schema.Provider {
 }
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 
-	hostname := d.Get("tower_host").(string)
-	username := d.Get("tower_username").(string)
-	password := d.Get("tower_password").(string)
+	hostname := d.Get("awx_host").(string)
+	username := d.Get("awx_username").(string)
+	password := d.Get("awx_password").(string)
 
 	client := http.DefaultClient
 	if d.Get("ssl_verify").(bool) {
@@ -64,7 +64,7 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	}
 
 	var diags diag.Diagnostics
-	c, err := tower.NewAWX(hostname, username, password, client)
+	c, err := awx.NewAWX(hostname, username, password, client)
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
