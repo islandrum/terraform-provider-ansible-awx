@@ -3,10 +3,11 @@ package awx
 import (
 	"context"
 	"crypto/tls"
-	"github.com/islandrum/go-ansible-awx-sdk/client"
+	"net/http"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"net/http"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 )
 
 func Provider() *schema.Provider {
@@ -28,23 +29,23 @@ func Provider() *schema.Provider {
 				Sensitive:   true,
 				DefaultFunc: schema.EnvDefaultFunc("AWX_PASSWORD", "password"),
 			},
-			"ssl_verify": {
+			"validate_certs": {
 				Type:        schema.TypeBool,
 				Optional:    true,
-				Default:     false,
-				Description: "Disable SSL verification of API calls",
+				Default:     true,
+				Description: "Validate SSL certificates of AWX",
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"ansible-awx_inventory":          resourceInventory(),
-			"ansible-awx_oragnization":       resourceOrganization(),
+			"ansible-awx_organization":       resourceOrganization(),
 			"ansible-awx_inventory_source":   resourceInventorySource(),
 			"ansible-awx_inventory_script":   resourceInventoryScript(),
 			"ansible-awx_project":            resourceProject(),
 			"ansible-awx_job_template":       resourceJobTemplate(),
 			"ansible-awx_credential_scm":     resourceCredentialSCM(),
 			"ansible-awx_credential_machine": resourceCredentialMachine(),
-			"ansible-awx_credential_type": 	resourceCredentialType(),
+			"ansible-awx_credential_type":    resourceCredentialType(),
 		},
 		DataSourcesMap:       map[string]*schema.Resource{},
 		ConfigureContextFunc: providerConfigure,
@@ -57,7 +58,7 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	password := d.Get("awx_password").(string)
 
 	client := http.DefaultClient
-	if d.Get("ssl_verify").(bool) {
+	if !d.Get("validate_certs").(bool) {
 		client.Transport = &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		}
