@@ -9,7 +9,7 @@
 
 
 resource "ansible-awx_credential_scm" "example" {
-  oragnization_id = ansible-awx_oragnization.oragnization.id
+  organization_id = ansible-awx_organization.organization.id
   name            = "acc-scm-credential"
   username        = "test"
   password        = "password"
@@ -20,7 +20,7 @@ resource "ansible-awx_credential_scm" "example" {
 
 ```hcl
 resource "ansible-awx_credential_scm" "credential" {
-  oragnization_id = ansible-awx_oragnization.oragnization.id
+  organization_id = ansible-awx_organization.organization.id
   name            = "acc-scm-credential"
   username        = "test"
   ssh_key_data    = file("${path.module}/files/id_rsa")
@@ -33,7 +33,7 @@ resource "ansible-awx_credential_scm" "credential" {
 The following arguments are supported:
 
 * `name` - Name of this credential. (string, required)
-* `oragnization_id` - Organization containing this credential. (id, required)
+* `organization_id` - Organization containing this credential. (id, required)
 * `description` - Optional description of this credential. (string, default="")
 * `username` - (Optional) credential scm USERNAME (string,  default="")
 * `password` - (Optional)  credential scm PASSWORD (string, default="")

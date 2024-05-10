@@ -9,14 +9,14 @@
 ## Example Usage with source `scm`
 
 ```hcl
-resource "ansible-awx_oragnization" "oragnization" {
-  name = "test oragnization"
+resource "ansible-awx_organization" "organization" {
+  name = "test organization"
   description = "desc"
 }
 resource "ansible-awx_inventory" "inventory" {
   name = "test inventory"
   description = "test dsd"
-  oragnization_id = ansible-awx_oragnization.oragnization.id
+  organization_id = ansible-awx_organization.organization.id
 }
 
 resource "ansible-awx_inventory_source" "source" {
@@ -33,19 +33,19 @@ resource "ansible-awx_inventory_source" "source" {
 ## Example Usage with source `custom`
 
 ```hcl
-resource "ansible-awx_oragnization" "oragnization" {
-  name = "test oragnization"
+resource "ansible-awx_organization" "organization" {
+  name = "test organization"
   description = "desc"
 }
 resource "ansible-awx_inventory" "inventory" {
   name = "test inventory"
   description = "test dsd"
-  oragnization_id = ansible-awx_oragnization.oragnization.id
+  organization_id = ansible-awx_organization.organization.id
 }
 resource "ansible-awx_inventory_script" "script" {
   name = "test inventory script script"
   description = "desc"
-  organization_id = ansible-awx_oragnization.oragnization.id
+  organization_id = ansible-awx_organization.organization.id
   script = <<EOT
 #!/usr/bin/env python
 echo "hey"

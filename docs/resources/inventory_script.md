@@ -11,7 +11,7 @@
 resource "ansible-awx_inventory_script" "script" {
   name = "test script"
   description = "description"
-  organization_id = ansible-awx_oragnization.oragnization.id
+  organization_id = ansible-awx_organization.organization.id
   script = <<EOT
 #!/usr/bin/env python
 echo "hey"

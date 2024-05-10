@@ -71,7 +71,7 @@ func resourceProject() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
-			"oragnization_id": &schema.Schema{
+			"organization_id": &schema.Schema{
 				Type:        schema.TypeInt,
 				Required:    true,
 				Description: "Numeric ID of the project organization",
@@ -102,7 +102,7 @@ func resourceProjectCreate(ctx context.Context, d *schema.ResourceData, m interf
 	client := m.(*awx.AWX)
 	awxService := client.ProjectService
 
-	orgID := d.Get("oragnization_id").(int)
+	orgID := d.Get("organization_id").(int)
 	projectName := d.Get("name").(string)
 	_, res, err := awxService.ListProjects(map[string]string{
 		"name":         projectName,
@@ -128,7 +128,7 @@ func resourceProjectCreate(ctx context.Context, d *schema.ResourceData, m interf
 		"scm_branch":               d.Get("scm_branch").(string),
 		"scm_clean":                d.Get("scm_clean").(bool),
 		"scm_delete_on_update":     d.Get("scm_delete_on_update").(bool),
-		"organization":             d.Get("oragnization_id").(int),
+		"organization":             d.Get("organization_id").(int),
 		"credential":               credentials,
 		"scm_update_on_launch":     d.Get("scm_update_on_launch").(bool),
 		"scm_update_cache_timeout": d.Get("scm_update_cache_timeout").(int),
@@ -164,7 +164,7 @@ func resourceProjectUpdate(ctx context.Context, d *schema.ResourceData, m interf
 		"scm_clean":                d.Get("scm_clean").(bool),
 		"scm_delete_on_update":     d.Get("scm_delete_on_update").(bool),
 		"credential":               credentials,
-		"organization":             d.Get("oragnization_id").(int),
+		"organization":             d.Get("organization_id").(int),
 		"scm_update_on_launch":     d.Get("scm_update_on_launch").(bool),
 		"scm_update_cache_timeout": d.Get("scm_update_cache_timeout").(int),
 	}, map[string]string{})
@@ -252,7 +252,7 @@ func setProjectResourceData(d *schema.ResourceData, r *awx.Project) *schema.Reso
 	d.Set("scm_branch", r.ScmBranch)
 	d.Set("scm_clean", r.ScmClean)
 	d.Set("scm_delete_on_update", r.ScmDeleteOnUpdate)
-	d.Set("oragnization_id", r.Organization)
+	d.Set("organization_id", r.Organization)
 
 	id, err := strconv.Atoi(r.Credential)
 	if err == nil {
