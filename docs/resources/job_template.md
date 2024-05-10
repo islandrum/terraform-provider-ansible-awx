@@ -23,7 +23,7 @@ The following arguments are supported:
 * `name` - (Required) Name of this workflow job template. (string, required)
 * `playbook` - (Required) (string, default=``)
 * `description` - (Optional)  description of this job template. (string, default="")
-* `oragnization_id` - (Optional) The organization used to determine access to this template. (id, default=``)
+* `organization_id` - (Optional) The organization used to determine access to this template. (id, default=``)
 * `inventory_id` - (Required) Inventory applied as a prompt, assuming job template prompts for inventory.
 * `project_id` - (Required) (id, default=``)
 * `job_type` - (Optional) . (choice)

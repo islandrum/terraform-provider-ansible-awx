@@ -13,7 +13,7 @@ variable "db_pwd" {
 
 resource "ansible-awx_inventory" "default" {
   name            = "acc-test"
-  oragnization_id = "1"
+  organization_id = "1"
   inv_var {
     key = "database_user"
     value = "root"
@@ -25,7 +25,7 @@ resource "ansible-awx_inventory" "default" {
 }
 ```
 
-## Example Usage with  oragnization
+## Example Usage with  organization
 
 ```hcl
 data "ansible-awx_organization" "example" {
@@ -34,7 +34,7 @@ data "ansible-awx_organization" "example" {
 
 resource "ansible-awx_inventory" "example" {
   name            = "acc-test"
-  oragnization_id = data.ansible-awx_organization.example.id
+  organization_id = data.ansible-awx_organization.example.id
   inv_var {
     key = "example_key"
     value = "value_value"
@@ -47,7 +47,7 @@ resource "ansible-awx_inventory" "example" {
 The following arguments are supported:
 
 * `name` - Name of this inventory. (string, required) 
-* `oragnization_id` - Organization containing this inventory. (id, required)
+* `organization_id` - Organization containing this inventory. (id, required)
 * `description` - Optional description of this inventory. (string, default="")
 * `host_filter` - (Optional)  Filter that will be applied to the hosts of this inventory. (string, default="")
 * `kind` - (Optional)  Kind of inventory being represented. (choice) 

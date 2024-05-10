@@ -10,7 +10,7 @@ OS_ARCH=linux_amd64
 HOSTNAME=registry.terraform.io
 NAMESPACE=islandrum
 NAME=ansible-awx
-VERSION=0.0.1
+VERSION=0.1.1-b1
 ## on linux base os
 TERRAFORM_PLUGINS_DIRECTORY=~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 
