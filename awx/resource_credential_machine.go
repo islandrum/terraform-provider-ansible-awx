@@ -3,9 +3,10 @@ package awx
 import (
 	"context"
 	"fmt"
-	awx "github.com/islandrum/go-ansible-awx-sdk/client"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 )
 
 func resourceCredentialMachine() *schema.Resource {
@@ -14,6 +15,9 @@ func resourceCredentialMachine() *schema.Resource {
 		ReadContext:   resourceCredentialMachineRead,
 		UpdateContext: resourceCredentialMachineUpdate,
 		DeleteContext: resourceCredentialMachineDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:     schema.TypeString,
@@ -25,7 +29,7 @@ func resourceCredentialMachine() *schema.Resource {
 			},
 			"organization_id": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 			"username": {
 				Type:     schema.TypeString,
@@ -108,6 +112,14 @@ func resourceCredentialMachineCreate(ctx context.Context, d *schema.ResourceData
 	}
 
 	client := m.(*awx.AWX)
+	if d.Get("organization_id").(int) <= 0 {
+		me, err := client.MeService.GetMe(nil)
+		if err != nil {
+			return DiagsError(CredentialMachineResourceName, err)
+		}
+		newCredential["user"] = me.ID
+		newCredential["organization"] = nil
+	}
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		return DiagsError(CredentialMachineResourceName, err)
@@ -174,9 +186,11 @@ func resourceCredentialMachineRead(ctx context.Context, d *schema.ResourceData, 
 	if setErr != nil {
 		return DiagsError(CredentialMachineResourceName, setErr)
 	}
-	setErr = d.Set("organization_id", cred.OrganizationID)
-	if setErr != nil {
-		return DiagsError(CredentialMachineResourceName, setErr)
+	if cred.OrganizationID != nil {
+		setErr = d.Set("organization_id", cred.OrganizationID)
+		if setErr != nil {
+			return DiagsError(CredentialMachineResourceName, setErr)
+		}
 	}
 
 	return diags
@@ -226,6 +240,14 @@ func resourceCredentialMachineUpdate(ctx context.Context, d *schema.ResourceData
 		}
 
 		client := m.(*awx.AWX)
+		if d.Get("organization_id").(int) <= 0 {
+			me, err := client.MeService.GetMe(nil)
+			if err != nil {
+				return DiagsError(CredentialMachineResourceName, err)
+			}
+			updatedCredential["user"] = me.ID
+			updatedCredential["organization"] = nil
+		}
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			return DiagUpdateFail(CredentialMachineResourceName, id, err)

@@ -3,11 +3,12 @@ package awx
 import (
 	"context"
 	"fmt"
-	awx "github.com/islandrum/go-ansible-awx-sdk/client"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 )
 
 func resourceJobTemplate() *schema.Resource {
@@ -310,7 +311,9 @@ func setJobTemplateResourceData(data *schema.ResourceData, r *awx.JobTemplate) *
 	data.Set("allow_simultaneous", r.AllowSimultaneous)
 	data.Set("ask_credential_on_launch", r.AskCredentialOnLaunch)
 	data.Set("ask_job_type_on_launch", r.AskJobTypeOnLaunch)
-
+	data.Set("ask_diff_mode_on_launch", r.AskDiffModeOnLaunch)
+	data.Set("ask_inventory_on_launch", r.AskInventoryOnLaunch)
+	data.Set("ask_verbosity_on_launch", r.AskVerbosityOnLaunch)
 	data.Set("ask_limit_on_launch", r.AskLimitOnLaunch)
 	data.Set("ask_skip_tags_on_launch", r.AskSkipTagsOnLaunch)
 	data.Set("ask_tags_on_launch", r.AskTagsOnLaunch)
@@ -334,6 +337,7 @@ func setJobTemplateResourceData(data *schema.ResourceData, r *awx.JobTemplate) *
 	data.Set("skip_tags", r.SkipTags)
 	data.Set("start_at_task", r.StartAtTask)
 	data.Set("survey_enabled", r.SurveyEnabled)
+	data.Set("timeout", r.Timeout)
 	data.Set("verbosity", r.Verbosity)
 	data.SetId(getStateID(r.ID))
 	return data
