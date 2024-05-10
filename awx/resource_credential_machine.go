@@ -3,9 +3,10 @@ package awx
 import (
 	"context"
 	"fmt"
-	awx "github.com/islandrum/go-ansible-awx-sdk/client"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 )
 
 func resourceCredentialMachine() *schema.Resource {
@@ -14,6 +15,9 @@ func resourceCredentialMachine() *schema.Resource {
 		ReadContext:   resourceCredentialMachineRead,
 		UpdateContext: resourceCredentialMachineUpdate,
 		DeleteContext: resourceCredentialMachineDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:     schema.TypeString,
