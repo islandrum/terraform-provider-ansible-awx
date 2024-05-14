@@ -3,10 +3,12 @@ package awx
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	awx "github.com/islandrum/go-ansible-awx-sdk/client"
+	"github.com/mitchellh/mapstructure"
 )
 
 func resourceCredentialMachine() *schema.Resource {
@@ -67,6 +69,16 @@ func resourceCredentialMachine() *schema.Resource {
 				Optional:  true,
 				Sensitive: true,
 			},
+			"user_id": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				ForceNew: true,
+			},
+			"team_id": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				ForceNew: true,
+			},
 		},
 	}
 }
@@ -109,17 +121,20 @@ func resourceCredentialMachineCreate(ctx context.Context, d *schema.ResourceData
 			"become_username":     d.Get("become_username").(string),
 			"become_password":     d.Get("become_password").(string),
 		},
+		"team": d.Get("team_id").(int),
+		"user": d.Get("user_id").(int),
+	}
+	if newCredential["organization"] == 0 {
+		newCredential["organization"] = nil
+	}
+	if newCredential["team"] == 0 {
+		newCredential["team"] = nil
+	}
+	if newCredential["user"] == 0 {
+		newCredential["user"] = nil
 	}
 
 	client := m.(*awx.AWX)
-	if d.Get("organization_id").(int) <= 0 {
-		me, err := client.MeService.GetMe(nil)
-		if err != nil {
-			return DiagsError(CredentialMachineResourceName, err)
-		}
-		newCredential["user"] = me.ID
-		newCredential["organization"] = nil
-	}
 	cred, err := client.CredentialsService.CreateCredentials(newCredential, map[string]string{})
 	if err != nil {
 		return DiagsError(CredentialMachineResourceName, err)
@@ -186,8 +201,34 @@ func resourceCredentialMachineRead(ctx context.Context, d *schema.ResourceData, 
 	if setErr != nil {
 		return DiagsError(CredentialMachineResourceName, setErr)
 	}
+	owners, err := GetCredentialOwnersFromSummaryFields(cred.SummaryFields)
+	if err != nil {
+		return DiagsError(CredentialMachineResourceName, err)
+	}
 	if cred.OrganizationID != nil {
 		setErr = d.Set("organization_id", cred.OrganizationID)
+		if setErr != nil {
+			return DiagsError(CredentialMachineResourceName, setErr)
+		}
+	} else if owners.OrganizationID != 0 {
+		setErr = d.Set("organization_id", owners.OrganizationID)
+		if setErr != nil {
+			return DiagsError(CredentialMachineResourceName, setErr)
+		}
+	} else {
+		setErr = d.Set("organization_id", nil)
+		if setErr != nil {
+			return DiagsError(CredentialMachineResourceName, setErr)
+		}
+	}
+	if owners.TeamID != 0 {
+		setErr = d.Set("team_id", owners.TeamID)
+		if setErr != nil {
+			return DiagsError(CredentialMachineResourceName, setErr)
+		}
+	}
+	if owners.UserID != 0 {
+		setErr = d.Set("user_id", owners.UserID)
 		if setErr != nil {
 			return DiagsError(CredentialMachineResourceName, setErr)
 		}
@@ -210,8 +251,8 @@ func resourceCredentialMachineUpdate(ctx context.Context, d *schema.ResourceData
 		"become_username",
 		"become_password",
 		"organization_id",
-		"team_id",
-		"owner_id",
+		"teams",
+		"owners",
 	}
 
 	if d.HasChanges(keys...) {
@@ -237,17 +278,20 @@ func resourceCredentialMachineUpdate(ctx context.Context, d *schema.ResourceData
 				"become_username":     d.Get("become_username").(string),
 				"become_password":     d.Get("become_password").(string),
 			},
+			"team": d.Get("team_id").(int),
+			"user": d.Get("user_id").(int),
+		}
+		if updatedCredential["organization"] == 0 {
+			updatedCredential["organization"] = nil
+		}
+		if updatedCredential["team"] == 0 {
+			updatedCredential["team"] = nil
+		}
+		if updatedCredential["user"] == 0 {
+			updatedCredential["user"] = nil
 		}
 
 		client := m.(*awx.AWX)
-		if d.Get("organization_id").(int) <= 0 {
-			me, err := client.MeService.GetMe(nil)
-			if err != nil {
-				return DiagsError(CredentialMachineResourceName, err)
-			}
-			updatedCredential["user"] = me.ID
-			updatedCredential["organization"] = nil
-		}
 		_, err = client.CredentialsService.UpdateCredentialsByID(id, updatedCredential, map[string]string{})
 		if err != nil {
 			return DiagUpdateFail(CredentialMachineResourceName, id, err)
@@ -255,4 +299,42 @@ func resourceCredentialMachineUpdate(ctx context.Context, d *schema.ResourceData
 	}
 
 	return resourceCredentialMachineRead(ctx, d, m)
+}
+
+type OwnerIDs struct {
+	UserID         int
+	TeamID         int
+	OrganizationID int
+}
+
+type SummaryFieldOwner struct {
+	ID          int    `mapstructure:"id"`
+	Type        string `mapstructure:"type"`
+	Name        string `mapstructure:"name"`
+	Description string `mapstructure:"description"`
+	Url         string `mapstructure:"url"`
+}
+
+type SummaryFieldOwners struct {
+	Owners []SummaryFieldOwner `mapstructure:"owners"`
+}
+
+func GetCredentialOwnersFromSummaryFields(SummaryFields map[string]interface{}) (OwnerIDs, error) {
+	var summaryFieldOwners SummaryFieldOwners
+	var owners OwnerIDs
+	err := mapstructure.Decode(SummaryFields, &summaryFieldOwners)
+	if err != nil {
+		return owners, err
+	}
+	for _, owner := range summaryFieldOwners.Owners {
+		switch strings.ToLower(owner.Type) {
+		case "organization":
+			owners.OrganizationID = owner.ID
+		case "team":
+			owners.TeamID = owner.ID
+		case "user":
+			owners.UserID = owner.ID
+		}
+	}
+	return owners, nil
 }
