@@ -3,9 +3,10 @@ package awx
 import (
 	"context"
 	"fmt"
-	"github.com/islandrum/go-ansible-awx-sdk/client"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	awx "github.com/islandrum/go-ansible-awx-sdk/client"
 )
 
 func resourceOrganization() *schema.Resource {
